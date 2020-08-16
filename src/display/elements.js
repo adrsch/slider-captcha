@@ -1,22 +1,14 @@
 const createElement = (
   tag,
-  {
-    classes=[],
-    contents='',
-    src='',
-    hidden=false,
-  }={},
+  { classes = [], contents = '', src = '', hidden = false } = {}
 ) =>
   Object.assign(document.createElement(tag), {
     className: classes.join(' '),
     innerHTML: contents,
-    style: 
-      (hidden)
-        ? 'display: none;'
-        : '',
+    style: hidden ? 'display: none;' : '',
   });
 
-const imageElement = (image, classes=[]) =>
+const imageElement = (image, classes = []) =>
   Object.assign(new Image(), {
     className: classes.join(' '),
     draggable: false,

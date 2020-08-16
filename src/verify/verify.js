@@ -4,12 +4,15 @@ const verifySolution = (captcha, solution, tolerance) =>
   Math.abs(captcha - solution) < tolerance;
 
 const verifyHorizontalMotion = (positions, solution) =>
-  !positions.reduce((jumpToInput, pos) => jumpToInput && (pos === 0 || pos === solution), true);
+  !positions.reduce(
+    (jumpToInput, pos) => jumpToInput && (pos === 0 || pos === solution),
+    true
+  );
 
 const verifyVerticalMotion = (positions) =>
   positions.reduce((total, pos) => total + pos) != 0;
 
-const verifyCaptcha = (captcha, solution, trail, tolerance=5) =>
+const verifyCaptcha = (captcha, solution, trail, tolerance = 5) =>
   verifySolution(captcha, solution, tolerance) &&
   verifyHorizontalMotion(trail.x, solution) &&
   verifyVerticalMotion(trail.y);

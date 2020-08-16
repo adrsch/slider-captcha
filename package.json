@@ -1,8 +1,13 @@
 {
   "name": "slider-captcha",
   "version": "0.1.0",
-  "description": "A user-friendly puzzle slider captcha",
+  "description": "A user-friendly puzzle slider captcha for React and Express",
   "main": "index.js",
+  "scripts": {
+    "test": "echo a",
+    "prettier": "prettier --write --single-quote ./src",
+    "build": "./node_modules/.bin/babel src -d ./dist"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/adrsch/slider-captcha.git"
@@ -21,5 +26,16 @@
   "homepage": "https://github.com/adrsch/slider-captcha#readme",
   "dependencies": {
     "sharp": "^0.25.4"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.1",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-react": "^7.10.4",
+    "prettier": "2.0.5"
   }
 }

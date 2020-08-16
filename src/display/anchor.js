@@ -6,13 +6,13 @@ import { createChallenge } from './challenge';
 
 const createAnchorElements = (colors, anchorText, textStyle, puzzleSize) => ({
   anchor: createElement('div', {
-    classes: [ classes.anchorContainer, classes.anchor ],
+    classes: [classes.anchorContainer, classes.anchor],
   }),
   anchorCheckbox: createElement('div', {
-    classes: [ classes.anchorCheckbox, classes.anchor ],
+    classes: [classes.anchorCheckbox, classes.anchor],
   }),
   anchorText: createElement('div', {
-    classes: [ classes.anchorText, classes.anchor ],
+    classes: [classes.anchorText, classes.anchor],
     contents: anchorText,
   }),
   style: createElement('style', {
@@ -23,24 +23,23 @@ const createAnchorElements = (colors, anchorText, textStyle, puzzleSize) => ({
 const createCardElements = (colors) => ({
   container: createElement('div', {
     hidden: true,
-    classes: [ classes.container, classes.card ],
+    classes: [classes.container, classes.card],
   }),
   loading: createElement('div', {
     contents: loadingIcon(colors.card.control.active),
-    classes: [ classes.loading, classes.card ],
+    classes: [classes.loading, classes.card],
   }),
 });
 
-
 const setupAnchorHierarchy = (elements) =>
-  [elements.anchorCheckbox, elements.anchorText, elements.style]
-    .forEach(el => elements.anchor.append(el));
+  [elements.anchorCheckbox, elements.anchorText, elements.style].forEach((el) =>
+    elements.anchor.append(el)
+  );
 
 const setupCardHierarchy = (elements) => {
   elements.container.append(elements.loading);
   elements.anchor.append(elements.container);
 };
-
 
 const clearCard = (elements, colors) => {
   elements.loading.style.display = 'flex';
@@ -76,12 +75,10 @@ const createAnchor = (options) => {
       options.colors,
       options.text.anchor,
       options.text.style,
-      options.puzzle,
+      options.puzzle
     ),
-    ...createCardElements(
-      options.colors
-    ),
-  };  
+    ...createCardElements(options.colors),
+  };
   bindCardEvent(elements, options);
   setupAnchorHierarchy(elements);
   setupCardHierarchy(elements);
