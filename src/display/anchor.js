@@ -3,6 +3,9 @@ import { style } from './style';
 import { loadingIcon } from './icons';
 import { createElement } from './elements';
 import { createChallenge } from './challenge';
+import React, { useState } from 'react';
+
+const createAnchor = (
 
 const createAnchorElements = (colors, anchorText, textStyle, puzzleSize) => ({
   anchor: createElement('div', {

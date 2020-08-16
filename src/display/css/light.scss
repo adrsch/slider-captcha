@@ -1,0 +1,20 @@
+@use 'style';
+
+$colors: (
+  'card-control-background': #fafafa,
+  'card-control-active': #0889e4,
+  'card-control-success': rgb(53, 221, 116),
+  'card-control-failure': rgb(228, 8, 8),
+  'card-control-label': #202020,
+  'card-track-background': #d9d9d9,
+  'card-track-active': #3caeff,
+  'card-track-success': rgb(131, 247, 136),
+  'card-track-failure': rgb(255, 60, 60),
+  'card-track-label': #716e6e,
+  'card-background': #f1f1f1,
+  'anchor-background': #f8f8f8,
+  'anchor-checkbox': #fff,
+  'anchor-label': #424242
+);
+
+@include style.generate($colors);

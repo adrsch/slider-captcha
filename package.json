@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo a",
     "prettier": "prettier --write --single-quote ./src",
-    "build": "./node_modules/.bin/babel src -d ./dist"
+    "sass": "sass src",
+    "build": "babel src -D --no-copy-ignored -d ./dist"
   },
   "repository": {
     "type": "git",
@@ -25,6 +26,7 @@
   },
   "homepage": "https://github.com/adrsch/slider-captcha#readme",
   "dependencies": {
+    "roboto-fontface": "^0.10.0",
     "sharp": "^0.25.4"
   },
   "peerDependencies": {
@@ -36,6 +38,7 @@
     "@babel/core": "^7.11.1",
     "@babel/preset-env": "^7.11.0",
     "@babel/preset-react": "^7.10.4",
-    "prettier": "2.0.5"
+    "prettier": "2.0.5",
+    "sass": "^1.26.10"
   }
 }
