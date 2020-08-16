@@ -48,7 +48,6 @@ border: 1px solid rgba(0,0,0,0.12);
   z-index: 1;
 }
 
-
 .${classes.container} {
   position: absolute;
   padding: 15px 15px 0px 15px;
@@ -57,6 +56,12 @@ border: 1px solid rgba(0,0,0,0.12);
   background-color: ${colors.card.container};
   box-shadow: 0px -1px 0px -2px rgba(0,0,0,0.2), 0px 2px 9px 0px rgba(0,0,0,0.14), 0px 5px 9px 0px rgba(0,0,0,0.15);
   margin-top: -${height + 110}px;
+}
+
+@media only screen and (max-width: 400px) {
+  .${classes.container} {
+    margin-left: -13px;
+  }
 }
 
 .${classes.slider} {
