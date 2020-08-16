@@ -1,5 +1,6 @@
 const classes = {
   anchor: 'scaptcha-anchor',
+  anchorContainer: 'scaptcha-anchor-container',
   anchorCheckbox: 'scaptcha-anchor-checkbox',
   anchorText: 'scaptcha-anchor-text',
   container: 'scaptcha-container',
@@ -11,8 +12,8 @@ const classes = {
   controlMask: 'scaptcha-control-mask',
   controlText: 'scaptcha-control-text',
   noSelect: 'scaptcha-no-select',
-  challenge: 'scaptcha-challenge',
-  background: 'scaptcha-background',
+  card: 'scaptcha-card',
+  loading: 'scaptcha-loading',
 };
 
-module.exports = classes;
+export { classes };

@@ -1,5 +1,5 @@
-const light = { 
-  challenge: {
+const defaultColors = { 
+  card: {
     control: {
       background: '#fafafa',
       active: '#0889e4',
@@ -23,4 +23,4 @@ const light = {
   },
 };
 
-module.exports = { light };
+export { defaultColors };

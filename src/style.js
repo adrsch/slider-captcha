@@ -1,17 +1,24 @@
-const classes = require('./classes');
+import { classes } from './classes';
 
 const style = (colors, textStyle, { width, height }) => `
-.${classes.anchor} {
-  display: relative;
+.${classes.anchorContainer} {
+  position: relative;
   background-color: ${colors.anchor.background};
   width: 100%;
   height: 50px;
   padding-top: 10px;
 }
 
-.${classes.background} {
+.${classes.loading} {
+  margin: 15px;
+  position: absolute;
+  top: 0;
+  left: 0;
   min-width: ${width}px;
   min-height: ${height}px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .${classes.anchorCheckbox} {
@@ -33,8 +40,11 @@ const style = (colors, textStyle, { width, height }) => `
 .${classes.container} {
   position: absolute;
   padding: 15px 15px 0px 15px;
-  background-color: ${colors.challenge.container};
+  min-width: ${width+30}px;
+  min-height: ${height+45}px;
+  background-color: ${colors.card.container};
   box-shadow: 0px -1px 0px -2px rgba(0,0,0,0.2), 0px 2px 9px 0px rgba(0,0,0,0.14), 0px 5px 9px 0px rgba(0,0,0,0.15);
+  margin-top: -100px;
 }
 
 .${classes.slider} {
@@ -54,17 +64,19 @@ const style = (colors, textStyle, { width, height }) => `
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12);
   width: 20px;
   height: 20px;
-  background-color: ${colors.challenge.control.background};
+  background-color: ${colors.card.control.background};
   cursor: pointer;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 50%;
   display: flex;
+  padding-top: 1px;
+  padding-left: 1px;
   align-items: center;
   justify-content: center;
 }
 
 .${classes.refresh}:hover {
-  background-color: ${colors.challenge.control.active};
+  background-color: ${colors.card.control.active};
   box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);
 }
 
@@ -72,11 +84,10 @@ const style = (colors, textStyle, { width, height }) => `
   position: absolute;
   top: 0;
   left: 0;
-  color: ${colors.challenge.control.text};
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12);
   width: 30px;
   height: 30px;
-  background-color: ${colors.challenge.control.background};
+  background-color: ${colors.card.control.background};
   cursor: pointer;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 50%;
@@ -87,7 +98,7 @@ const style = (colors, textStyle, { width, height }) => `
 }
 
 .${classes.control}:hover {
-  background-color: ${colors.challenge.control.active};
+  background-color: ${colors.card.control.active};
   box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);
 }
 
@@ -103,7 +114,7 @@ const style = (colors, textStyle, { width, height }) => `
   top: 3px;
   left: 0;
   height: 24px;
-  background-color: ${colors.challenge.track.background};
+  background-color: ${colors.card.track.background};
   border-radius: 12px;
 }
 
@@ -114,12 +125,13 @@ const style = (colors, textStyle, { width, height }) => `
   left: 0;
   width: 0;
   height: 24px;
-  background-color: ${colors.challenge.track.active};
+  background-color: ${colors.card.track.active};
   border-radius: 12px;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .${classes.controlText} {
+  color: ${colors.card.track.text};
   padding-left: 20px;
   position: absolute;
   top: 3px;
@@ -145,4 +157,4 @@ const style = (colors, textStyle, { width, height }) => `
 }
 `;
 
-module.exports = style;
+export { style };
