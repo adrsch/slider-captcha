@@ -1,4 +1,4 @@
-import { defaultColors } from './colors';
+import { light, dark } from './colors';
 import { createAnchor } from './anchor';
 import { createChallenge } from './challenge';
 
@@ -6,7 +6,10 @@ const setupDefaultOptions = (options) =>
   Object.assign({
     create: 'captcha/create',
     verify: 'captcha/verify',
-    colors: defaultColors,
+    colors: 
+      (options.colors === 'dark')
+        ? dark
+        : light,
     text: {
       challenge: 'Slide to finish the puzzle',
       anchor: 'I am human',
@@ -20,6 +23,7 @@ const setupDefaultOptions = (options) =>
       width: 250,
       height: 150,
     },
+    refresh: false,
   }, options);
 
 const sliderCaptcha = (options) => 

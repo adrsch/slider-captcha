@@ -29,10 +29,10 @@ const assignChallengeElements = (elements, colors, trackText, backgroundImage, s
     }),
   });
 
-const setupChallengeHierarchy = (elements) => {
+const setupChallengeHierarchy = (elements, refresh) => {
   [ elements.controlTrack, elements.controlMask, elements.controlText, elements.control ]
     .forEach(el => elements.controlContainer.append(el));
-  [ elements.background, elements.slider, elements.controlContainer, elements.refresh ]
+  [ elements.background, elements.slider, elements.controlContainer, (refresh) ? elements.refresh : '' ]
     .forEach(el => elements.container.append(el));
 };
 
@@ -72,7 +72,7 @@ const succeed = (elements, options) => {
 const fail = (elements, options) => {
   elements.control.style.backgroundColor = options.colors.card.control.failure;
   elements.controlMask.style.backgroundColor = options.colors.card.track.failure;
-  elements.control.innerHTML = failureIcon(options.colors);
+  elements.control.innerHTML = failureIcon(options.colors.card.control.icon);
   refreshChallenge(elements, options);
 };
 
@@ -157,12 +157,12 @@ const bindSolveEvents = (elements, options, width) => {
   elements.control.addEventListener('touchstart', handleStart);
 };
 
-const clearChallenge = (elements) =>
-  [ elements.background, elements.slider, elements.controlContainer, elements.refresh ]
+const clearChallenge = (elements, refresh) =>
+  [ elements.background, elements.slider, elements.controlContainer, (refresh) ? elements.refresh : '' ]
     .forEach(el => elements.container.removeChild(el));
 
 const displayChallenge = (elements, options) => {
-  setupChallengeHierarchy(elements);
+  setupChallengeHierarchy(elements, options.refresh);
   bindChallengeEvents(elements, options);
 };
 
@@ -175,7 +175,7 @@ const fetchCaptcha = (options) =>
 const refreshChallenge = (elements, options) =>
   fetchCaptcha(options)
     .then(data => {
-      clearChallenge(elements);
+      clearChallenge(elements, options.refresh);
       displayChallenge(
         assignChallengeElements(
           elements,

@@ -56,7 +56,7 @@ border: 1px solid rgba(0,0,0,0.12);
   min-height: ${height + 72}px;
   background-color: ${colors.card.container};
   box-shadow: 0px -1px 0px -2px rgba(0,0,0,0.2), 0px 2px 9px 0px rgba(0,0,0,0.14), 0px 5px 9px 0px rgba(0,0,0,0.15);
-  margin-top: -${height + 72 + 50}px;
+  margin-top: -${height + 110}px;
 }
 
 .${classes.slider} {
