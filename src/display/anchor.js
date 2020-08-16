@@ -26,7 +26,7 @@ const createCardElements = (colors) => ({
     classes: [ classes.container, classes.card ],
   }),
   loading: createElement('div', {
-    contents: loadingIcon(colors),
+    contents: loadingIcon(colors.card.control.active),
     classes: [ classes.loading, classes.card ],
   }),
 });

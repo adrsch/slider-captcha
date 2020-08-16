@@ -17,7 +17,7 @@ const assignChallengeElements = (elements, colors, trackText, backgroundImage, s
     }),
     control: createElement('div', {
       classes: [ classes.control, classes.card ],
-      contents: arrowIcon(colors),
+      contents: arrowIcon(colors.card.control.icon),
     }),
     controlText: createElement('div', {
       classes: [ classes.controlText, classes.card ],
@@ -25,7 +25,7 @@ const assignChallengeElements = (elements, colors, trackText, backgroundImage, s
     }),
     refresh: createElement('div', {
       classes: [ classes.refresh, classes.noSelect, classes.card ],
-      contents: refreshIcon(colors),
+      contents: refreshIcon(colors.card.control.icon),
     }),
   });
 
@@ -57,7 +57,16 @@ const verifyCaptcha = (response, trail, options) =>
 const succeed = (elements, options) => {
   elements.control.style.backgroundColor = options.colors.card.control.success;
   elements.controlMask.style.backgroundColor = options.colors.card.track.success;
-  elements.control.innerHTML = successIcon(options.colors);
+  elements.control.innerHTML = successIcon(options.colors.card.control.icon);
+  setTimeout(() => {
+    elements.anchorCheckbox.innerHTML = successIcon(options.colors.card.control.icon);
+    elements.anchorCheckbox.style = 'cursor: default;';
+    elements.anchorText.style = 'line-height: 22px;';
+    elements.container.style.display = 'none';
+    elements.anchor.classList.remove(classes.anchor);
+    elements.anchorText.classList.remove(classes.anchor);
+    elements.anchorCheckbox.classList.remove(classes.anchor);
+  }, 500);
 };
 
 const fail = (elements, options) => {
@@ -69,6 +78,7 @@ const fail = (elements, options) => {
 
 const bindChallengeEvents = (elements, options) => {
   elements.refresh.addEventListener('click', () => {
+    elements.loading.style.backgroundColor = 'rgba(0.5, 0.5, 0.5, 0.4)';
     elements.loading.style.display = 'flex';
     refreshChallenge(elements, options);
   });

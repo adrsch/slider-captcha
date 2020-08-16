@@ -1,4 +1,4 @@
-const create = require('./create');
+const create = require('./create/create');
 const verify = require('./verify');
 module.exports = {
   create: create,

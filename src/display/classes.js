@@ -1,5 +1,5 @@
 const classes = {
-  anchor: 'scaptcha-anchor',
+  anchor: 'scaptcha-anchor-content',
   anchorContainer: 'scaptcha-anchor-container',
   anchorCheckbox: 'scaptcha-anchor-checkbox',
   anchorText: 'scaptcha-anchor-text',

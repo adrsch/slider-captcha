@@ -9,7 +9,7 @@ const setupDefaultOptions = (options) =>
     colors: defaultColors,
     text: {
       challenge: 'Slide to finish the puzzle',
-      anchor: 'Click to verify you are not a robot',
+      anchor: 'I am human',
       style: {
         fontSize: '13px',
         fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',

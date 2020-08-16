@@ -2,11 +2,37 @@ import { classes } from './classes';
 
 const style = (colors, textStyle, { width, height }) => `
 .${classes.anchorContainer} {
-  position: relative;
+box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.1);
+border: 1px solid rgba(0,0,0,0.12);
   background-color: ${colors.anchor.background};
   width: 100%;
   height: 50px;
-  padding-top: 10px;
+  padding: 13px;
+  max-width: 400px;
+}
+
+.${classes.anchorCheckbox} {
+  display: inline-block;
+  border: 2px solid rgba(0,0,0,0.2);
+  border-radius: 3px;
+  height: 24px;
+  width: 24px;
+  padding-left: 3.5px;
+  cursor: pointer;
+  background-color: ${colors.anchor.checkbox};
+}
+
+.${classes.anchorText} {
+  display: inline-block;
+  color: ${colors.anchor.text};
+  transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  font-size: ${textStyle.fontSize};
+  font-family: ${textStyle.fontFamily};
+  font-weight: ${textStyle.fontWeight};
+  vertical-align: middle;
+  line-height: 6px;
+  height: 100%;
+  margin-left: 13px;
 }
 
 .${classes.loading} {
@@ -19,39 +45,25 @@ const style = (colors, textStyle, { width, height }) => `
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1;
 }
 
-.${classes.anchorCheckbox} {
-  height: 30px;
-  width: 30px;
-  background-color: ${colors.anchor.checkbox};
-}
-
-.${classes.anchorText} {
-  display: flex;
-  align-items: center;
-  color: ${colors.anchor.text};
-  transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  font-size: ${textStyle.fontSize};
-  font-family: ${textStyle.fontFamily};
-  font-weight: ${textStyle.fontWeight};
-}
 
 .${classes.container} {
   position: absolute;
   padding: 15px 15px 0px 15px;
-  min-width: ${width+30}px;
-  min-height: ${height+45}px;
+  min-width: ${width + 30}px;
+  min-height: ${height + 72}px;
   background-color: ${colors.card.container};
   box-shadow: 0px -1px 0px -2px rgba(0,0,0,0.2), 0px 2px 9px 0px rgba(0,0,0,0.14), 0px 5px 9px 0px rgba(0,0,0,0.15);
-  margin-top: -100px;
+  margin-top: -${height + 72 + 50}px;
 }
 
 .${classes.slider} {
   margin-left: 15px;
   margin-top: 15px;
   position: absolute;
-  left: 0;
+  left: 5px;
   top: 0;
 }
 
@@ -105,7 +117,7 @@ const style = (colors, textStyle, { width, height }) => `
 .${classes.controlContainer} {
   margin-top: 7px;
   position: relative;
-  height: 40px;
+  height: 44px;
 }
 
 .${classes.controlTrack} {

@@ -19,7 +19,7 @@ const defaultColors = {
   anchor: {
     background: '#f8f8f8',
     checkbox: '#fff',
-    text: '#000',
+    text: '#424242',
   },
 };
 
