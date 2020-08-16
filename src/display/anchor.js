@@ -1,7 +1,7 @@
 import { classes } from './classes';
 import { style } from './style';
 import { loadingIcon } from './icons';
-import { createElement, imageElement } from './elements';
+import { createElement } from './elements';
 import { createChallenge } from './challenge';
 
 const createAnchorElements = (colors, anchorText, textStyle, puzzleSize) => ({

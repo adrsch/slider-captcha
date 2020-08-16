@@ -1,5 +1,5 @@
 import { classes } from './classes';
-import { arrowIcon, refreshIcon, successIcon, failureIcon } from './icons';
+import { arrowIcon, successIcon, failureIcon } from './icons';
 import { createElement, imageElement } from './elements';
 
 const assignChallengeElements = (elements, colors, trackText, backgroundImage, sliderImage) => 
@@ -23,16 +23,12 @@ const assignChallengeElements = (elements, colors, trackText, backgroundImage, s
       classes: [ classes.controlText, classes.card ],
       contents: trackText,
     }),
-    refresh: createElement('div', {
-      classes: [ classes.refresh, classes.noSelect, classes.card ],
-      contents: refreshIcon(colors.card.control.icon),
-    }),
   });
 
-const setupChallengeHierarchy = (elements, refresh) => {
+const setupChallengeHierarchy = (elements) => {
   [ elements.controlTrack, elements.controlMask, elements.controlText, elements.control ]
     .forEach(el => elements.controlContainer.append(el));
-  [ elements.background, elements.slider, elements.controlContainer, (refresh) ? elements.refresh : '' ]
+  [ elements.background, elements.slider, elements.controlContainer ]
     .forEach(el => elements.container.append(el));
 };
 
@@ -76,12 +72,7 @@ const fail = (elements, options) => {
   refreshChallenge(elements, options);
 };
 
-const bindChallengeEvents = (elements, options) => {
-  elements.refresh.addEventListener('click', () => {
-    elements.loading.style.backgroundColor = 'rgba(0.5, 0.5, 0.5, 0.4)';
-    elements.loading.style.display = 'flex';
-    refreshChallenge(elements, options);
-  });
+const bindChallengeEvents = (elements, options) =>
   elements.background.addEventListener('load', () => {
     // Set the width using actual width rather than width specified in options, in case of missmatch
     const width = elements.background.width;
@@ -91,7 +82,6 @@ const bindChallengeEvents = (elements, options) => {
     elements.loading.style.display = 'none';
     bindSolveEvents(elements, options, width);
   });
-};
 
 // Based on code by ArgoZhang, https://github.com/ArgoZhang/SliderCaptcha
 const bindSolveEvents = (elements, options, width) => {
@@ -157,12 +147,12 @@ const bindSolveEvents = (elements, options, width) => {
   elements.control.addEventListener('touchstart', handleStart);
 };
 
-const clearChallenge = (elements, refresh) =>
-  [ elements.background, elements.slider, elements.controlContainer, (refresh) ? elements.refresh : '' ]
+const clearChallenge = (elements) =>
+  [ elements.background, elements.slider, elements.controlContainer ]
     .forEach(el => elements.container.removeChild(el));
 
 const displayChallenge = (elements, options) => {
-  setupChallengeHierarchy(elements, options.refresh);
+  setupChallengeHierarchy(elements);
   bindChallengeEvents(elements, options);
 };
 
@@ -175,7 +165,7 @@ const fetchCaptcha = (options) =>
 const refreshChallenge = (elements, options) =>
   fetchCaptcha(options)
     .then(data => {
-      clearChallenge(elements, options.refresh);
+      clearChallenge(elements);
       displayChallenge(
         assignChallengeElements(
           elements,

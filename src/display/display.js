@@ -23,7 +23,6 @@ const setupDefaultOptions = (options) =>
       width: 250,
       height: 150,
     },
-    refresh: false,
   }, options);
 
 const sliderCaptcha = (options) => 
