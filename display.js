@@ -1,1 +1,1 @@
-module.exports = require('./src/display');
+module.exports = require('./src/display/display');
