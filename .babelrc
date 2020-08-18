@@ -1,9 +1,4 @@
 {
   "presets": ["@babel/preset-react", "@babel/preset-env"],
-  "ignore": [
-    "*.tmp",
-    "*.swo",
-    "*.swp",
-    "*.scss"
-  ]
+  "plugins": ["react-html-attrs"],
 }

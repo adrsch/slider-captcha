@@ -7,15 +7,17 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
+var _anchor = _interopRequireDefault(require("./anchor"));
+
+var _theme = _interopRequireDefault(require("./theme"));
+
 var _react = _interopRequireWildcard(require("react"));
-
-var _card = _interopRequireDefault(require("./card"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -29,41 +31,76 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-var Anchor = function Anchor(_ref) {
-  var text = _ref.text,
-      fetchCaptcha = _ref.fetchCaptcha,
-      verifyResponse = _ref.verifyResponse,
-      verified = _ref.verified;
+var fetchCaptcha = function fetchCaptcha(create) {
+  return function () {
+    return create instanceof Function ? create() // Use provided promise for getting background and slider
+    : fetch(create) // Use create as API URL for fetch
+    .then(function (response) {
+      return response.json();
+    });
+  };
+};
+
+var fetchVerification = function fetchVerification(verify) {
+  return function (response, trail) {
+    return verify instanceof Function ? verify(response, trail) // Use provided promise for verifying captcha
+    : fetch(verify, {
+      // Verification API URL provided instead
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        response: response,
+        trail: trail
+      })
+    }).then(function (response) {
+      return response.json();
+    });
+  };
+};
+
+var SliderCaptcha = function SliderCaptcha() {
+  var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+      _ref$variant = _ref.variant,
+      variant = _ref$variant === void 0 ? 'light' : _ref$variant,
+      _ref$create = _ref.create,
+      create = _ref$create === void 0 ? 'captcha/create' : _ref$create,
+      _ref$verify = _ref.verify,
+      verify = _ref$verify === void 0 ? 'captcha/verify' : _ref$verify,
+      _ref$callback = _ref.callback,
+      callback = _ref$callback === void 0 ? function (token) {
+    return console.log(token);
+  } : _ref$callback,
+      _ref$text = _ref.text,
+      text = _ref$text === void 0 ? {
+    anchor: 'I am human',
+    challenge: 'Slide to finish the puzzle'
+  } : _ref$text;
 
   var _useState = (0, _react.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
-      open = _useState2[0],
-      setOpen = _useState2[1];
+      verified = _useState2[0],
+      setVerified = _useState2[1];
 
-  var handleCloseCard = function handleCloseCard() {
-    return setOpen(false);
+  var verifyResponse = function verifyResponse(response, trail) {
+    fetchVerification(verify)(response, trail).then(function (verification) {
+      if (!verification.result || verification.result !== 'success' || !verification.token) return false;
+      callback(verification.token);
+      setVerified(true);
+      return true;
+    });
   };
 
-  var handleSetOpen = function handleSetOpen() {
-    return setOpen(true);
-  };
-
-  return /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("div", {
-    className: "scaptcha-anchor-container scaptcha-anchor-element",
-    onClick: handleSetOpen
-  }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: "scaptcha-anchor-checkbox scaptcha-anchor-element"
-  }), /*#__PURE__*/_react["default"].createElement("div", {
-    className: "scaptcha-anchor-label scaptcha-anchor-element"
-  }, text.anchor)), !verified && open && /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("div", {
-    className: "scaptcha-hidden",
-    onClick: handleCloseCard
-  }), /*#__PURE__*/_react["default"].createElement(_card["default"], {
-    fetchCaptcha: fetchCaptcha,
+  return /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement(_theme["default"], {
+    variant: variant
+  }), /*#__PURE__*/_react["default"].createElement(_anchor["default"], {
+    text: text,
+    fetchCaptcha: fetchCaptcha(create),
     verifyResponse: verifyResponse,
-    text: text
-  })));
+    verified: verified
+  }));
 };
 
-var _default = Anchor;
+var _default = SliderCaptcha;
 exports["default"] = _default;

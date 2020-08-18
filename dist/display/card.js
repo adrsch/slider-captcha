@@ -9,7 +9,9 @@ exports["default"] = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _card = _interopRequireDefault(require("./card"));
+var _loading = _interopRequireDefault(require("./icons/loading"));
+
+var _challenge = _interopRequireDefault(require("./challenge"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -29,41 +31,37 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-var Anchor = function Anchor(_ref) {
+var Card = function Card(_ref) {
   var text = _ref.text,
       fetchCaptcha = _ref.fetchCaptcha,
-      verifyResponse = _ref.verifyResponse,
-      verified = _ref.verified;
+      verifyResponse = _ref.verifyResponse;
 
   var _useState = (0, _react.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
-      open = _useState2[0],
-      setOpen = _useState2[1];
+      captcha = _useState2[0],
+      setCaptcha = _useState2[1];
 
-  var handleCloseCard = function handleCloseCard() {
-    return setOpen(false);
+  var refreshCaptcha = function refreshCaptcha() {
+    fetchCaptcha().then(function (captcha) {
+      return setCaptcha(captcha);
+    });
   };
 
-  var handleSetOpen = function handleSetOpen() {
-    return setOpen(true);
+  var onComplete = function onComplete(response, trail) {
+    if (!verifyResponse(response, trail)) refreshCaptcha();
   };
 
-  return /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("div", {
-    className: "scaptcha-anchor-container scaptcha-anchor-element",
-    onClick: handleSetOpen
-  }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: "scaptcha-anchor-checkbox scaptcha-anchor-element"
-  }), /*#__PURE__*/_react["default"].createElement("div", {
-    className: "scaptcha-anchor-label scaptcha-anchor-element"
-  }, text.anchor)), !verified && open && /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("div", {
-    className: "scaptcha-hidden",
-    onClick: handleCloseCard
-  }), /*#__PURE__*/_react["default"].createElement(_card["default"], {
-    fetchCaptcha: fetchCaptcha,
-    verifyResponse: verifyResponse,
-    text: text
-  })));
+  (0, _react.useEffect)(refreshCaptcha, []);
+  return /*#__PURE__*/_react["default"].createElement("div", {
+    className: "scaptcha-card-container scaptcha-card-element"
+  }, captcha ? /*#__PURE__*/_react["default"].createElement(_challenge["default"], {
+    text: text,
+    captcha: captcha,
+    onComplete: onComplete
+  }) : /*#__PURE__*/_react["default"].createElement("div", {
+    className: "scaptcha-card-loading scaptcha-card-element"
+  }, /*#__PURE__*/_react["default"].createElement(_loading["default"], null)));
 };
 
-var _default = Anchor;
+var _default = Card;
 exports["default"] = _default;

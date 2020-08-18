@@ -1,3 +1,4 @@
+const light = `
 @font-face {
   font-family: "Roboto";
   src: url("../../../fonts/roboto/Roboto-Regular.woff2") format("woff2"), url("../../../fonts/roboto/Roboto-Regular.woff") format("woff");
@@ -145,4 +146,11 @@
   line-height: 1;
 }
 
+.scaptcha-hidden {
+  display: none !important;
+}
+
 /*# sourceMappingURL=light.css.map */
+`;
+
+export default light;

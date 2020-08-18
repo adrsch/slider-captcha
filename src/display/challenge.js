@@ -1,114 +1,37 @@
-import { classes } from './classes';
-import { arrowIcon, successIcon, failureIcon } from './icons';
-import { createElement, imageElement } from './elements';
+import React, { useState, useEffect } from 'react';
+import LoadingIcon from './icons/loading';
 
-const assignChallengeElements = (
-  elements,
-  colors,
-  trackText,
-  backgroundImage,
-  sliderImage
-) =>
-  Object.assign(elements, {
-    background: imageElement(backgroundImage, [classes.noSelect, classes.card]),
-    slider: imageElement(sliderImage, [
-      classes.slider,
-      classes.noSelect,
-      classes.card,
-    ]),
-    controlContainer: createElement('div', {
-      classes: [classes.controlContainer, classes.card],
-    }),
-    controlMask: createElement('div', {
-      classes: [classes.controlMask, classes.card],
-    }),
-    controlTrack: createElement('div', {
-      classes: [classes.controlTrack, classes.card],
-    }),
-    control: createElement('div', {
-      classes: [classes.control, classes.card],
-      contents: arrowIcon(colors.card.control.icon),
-    }),
-    controlText: createElement('div', {
-      classes: [classes.controlText, classes.card],
-      contents: trackText,
-    }),
-  });
+const imageDataUrl = (image) =>
+  `data:image/png;base64,${Buffer.from(image).toString('base64')}`;
 
-const setupChallengeHierarchy = (elements) => {
-  [
-    elements.controlTrack,
-    elements.controlMask,
-    elements.controlText,
-    elements.control,
-  ].forEach((el) => elements.controlContainer.append(el));
-  [
-    elements.background,
-    elements.slider,
-    elements.controlContainer,
-  ].forEach((el) => elements.container.append(el));
-};
-
-const verifyCaptcha = (response, trail, options) =>
-  new Promise((resolve, reject) =>
-    options.verify instanceof Function
-      ? options
-          .verify(response, trail) // Use provided promise for verifying captcha
-          .then((success) => resolve(success.data || success))
-      : fetch(verify, {
-          // Verification URL provided instead
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            response: response,
-            trail: trail,
-          }),
-        })
-          .then((response) => response.json())
-          .then((data) => resolve(data.success))
+const Challenge = ({ text, captcha, verifyCaptcha }) => {
+  return (
+    <div className="scaptcha-card-element">
+      <div
+        className="scaptcha-card-background scaptcha-card-element"
+        style={{ backgroundImage: `url('${imageDataUrl(captcha.background)}')` }}
+      />
+      <img
+        className="scaptcha-card-slider-puzzle scaptcha-card-element"
+        src={imageDataUrl(captcha.slider)}
+      />
+      <div className="scaptcha-card-slider-container scaptcha-card-element">
+        <div className="scaptcha-card-slider-track scaptcha-card-element" />
+        <div className="scaptcha-card-slider-label scaptcha-card-element">
+          <span>{text.challenge}</span>
+        </div>
+        <div className="scaptcha-card-slider-mask scaptcha-card-element" />
+        <div className="scaptcha-card-slider-control scaptcha-card-element" />
+      </div>
+    </div>
   );
-
-const succeed = (elements, options) => {
-  elements.control.style.backgroundColor = options.colors.card.control.success;
-  elements.controlMask.style.backgroundColor =
-    options.colors.card.track.success;
-  elements.control.innerHTML = successIcon(options.colors.card.control.icon);
-  setTimeout(() => {
-    elements.anchorCheckbox.innerHTML = successIcon(
-      options.colors.card.control.icon
-    );
-    elements.anchorCheckbox.style = 'cursor: default;';
-    elements.anchorText.style = 'line-height: 22px;';
-    elements.container.style.display = 'none';
-    elements.anchor.classList.remove(classes.anchor);
-    elements.anchorText.classList.remove(classes.anchor);
-    elements.anchorCheckbox.classList.remove(classes.anchor);
-  }, 500);
 };
 
-const fail = (elements, options) => {
-  elements.control.style.backgroundColor = options.colors.card.control.failure;
-  elements.controlMask.style.backgroundColor =
-    options.colors.card.track.failure;
-  elements.control.innerHTML = failureIcon(options.colors.card.control.icon);
-  refreshChallenge(elements, options);
-};
+//const Challenge = ({ captcha, create, verify, callback
 
-const bindChallengeEvents = (elements, options) =>
-  elements.background.addEventListener('load', () => {
-    // Set the width using actual width rather than width specified in options, in case of missmatch
-    const width = elements.background.width;
-    const height = elements.background.height;
-    elements.controlTrack.style.width = width + 'px';
-    elements.controlText.style.width = width + 'px';
-    elements.loading.style.display = 'none';
-    bindSolveEvents(elements, options, width);
-  });
 
 // Based on code by ArgoZhang, https://github.com/ArgoZhang/SliderCaptcha
-const bindSolveEvents = (elements, options, width) => {
+const solveCaptcha = () => {
   const origin = {
     x: 0,
     y: 0,
@@ -177,51 +100,6 @@ const bindSolveEvents = (elements, options, width) => {
   elements.control.addEventListener('touchstart', handleStart);
 };
 
-const clearChallenge = (elements) =>
-  [
-    elements.background,
-    elements.slider,
-    elements.controlContainer,
-  ].forEach((el) => elements.container.removeChild(el));
 
-const displayChallenge = (elements, options) => {
-  setupChallengeHierarchy(elements);
-  bindChallengeEvents(elements, options);
-};
 
-const fetchCaptcha = (options) =>
-  options.create instanceof Function
-    ? options.create() // Use provided promise for getting background and slider
-    : fetch(options.create) // Use create as URL for fetch
-        .then((response) => response.json());
-
-const refreshChallenge = (elements, options) =>
-  fetchCaptcha(options).then((data) => {
-    clearChallenge(elements);
-    displayChallenge(
-      assignChallengeElements(
-        elements,
-        options.colors,
-        options.text.challenge,
-        data.background,
-        data.slider
-      ),
-      options
-    );
-  });
-
-const createChallenge = (elements, options) =>
-  fetchCaptcha(options).then((data) =>
-    displayChallenge(
-      assignChallengeElements(
-        elements,
-        options.colors,
-        options.text.challenge,
-        data.background,
-        data.slider
-      ),
-      options
-    )
-  );
-
-export { createChallenge };
+export default Challenge;
