@@ -4,7 +4,7 @@ import React from 'react';
 
 const Theme = ({ theme }) => (
   <style>
-    (theme === 'dark') ? {darkTheme}: {lightTheme}
+    {(theme === 'dark') ? darkTheme : lightTheme}
   </style>
 );
 

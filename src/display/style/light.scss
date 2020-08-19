@@ -17,4 +17,8 @@ $colors: (
   'anchor-label': #424242,
 );
 
+.scaptcha-icon-dark {
+  display: none;
+}
+
 @include style.generate($colors);

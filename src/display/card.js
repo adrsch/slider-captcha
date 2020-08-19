@@ -1,16 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import LoadingIcon from './icons/loading';
+import { LoadingIcon } from './icons';
 import Challenge from './challenge';
 
-const Card = ({ text, fetchCaptcha, verifyResponse }) => {
+const Card = ({ text, fetchCaptcha, submitResponse }) => {
+  const [key, setKey] = useState(Math.random());
   const [captcha, setCaptcha] = useState(false);
   const refreshCaptcha = () => {
-    fetchCaptcha()
-      .then((captcha) => setCaptcha(captcha));
+    let isSubscribed = true;
+    fetchCaptcha().then((captcha) => {
+      if (isSubscribed)
+      setKey(Math.random());
+      setCaptcha(captcha);
+    });
+    return () => isSubscribed = false;
   };
-  const onComplete = (response, trail) => {
-    if (!verifyResponse(response, trail)) refreshCaptcha();
-  }
+  const completeCaptcha = (response, trail) => {
+    if (submitResponse(response, trail)) return true;
+    refreshCaptcha();
+    return false;
+  };
 
   useEffect(refreshCaptcha, []);
 
@@ -18,9 +26,10 @@ const Card = ({ text, fetchCaptcha, verifyResponse }) => {
     <div className="scaptcha-card-container scaptcha-card-element">
       {captcha ? (
         <Challenge
+          key={key}
           text={text}
           captcha={captcha}
-          onComplete={onComplete}
+          completeCaptcha={completeCaptcha}
         />
       ) : (
         <div className="scaptcha-card-loading scaptcha-card-element">

@@ -34,31 +34,30 @@ const SliderCaptcha = ({
   },
 } = {}) => {
   const [verified, setVerified] = useState(false);
-  const verifyResponse = (response, trail) => {
-    fetchVerification(verify)(response, trail)
-      .then((verification) => {
-        if (
-          !verification.result ||
-          verification.result !== 'success' ||
-          !verification.token
-        ) return false;
-        callback(verification.token);
-        setVerified(true);
-        return true;
-      });
+  const submitResponse = (response, trail) => {
+    fetchVerification(verify)(response, trail).then((verification) => {
+      if (
+        !verification.result ||
+        verification.result !== 'success' ||
+        !verification.token
+      )
+        return false;
+      callback(verification.token);
+      setVerified(true);
+      return true;
+    });
   };
-  return ( 
+  return (
     <div>
       <Theme variant={variant} />
       <Anchor
         text={text}
         fetchCaptcha={fetchCaptcha(create)}
-        verifyResponse={verifyResponse}
+        submitResponse={submitResponse}
         verified={verified}
       />
     </div>
   );
 };
-
 
 export default SliderCaptcha;

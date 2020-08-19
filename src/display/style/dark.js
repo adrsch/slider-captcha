@@ -8,6 +8,10 @@ const darkTheme = `@font-face {
   font-family: "Roboto-Regular";
   src: url("../../../fonts/roboto/Roboto-Regular.woff2") format("woff2"), url("../../../fonts/roboto/Roboto-Regular.woff") format("woff");
 }
+.scaptcha-icon-light {
+  display: none;
+}
+
 .scaptcha-anchor-container {
   box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(0, 0, 0, 0.12);
@@ -83,16 +87,15 @@ const darkTheme = `@font-face {
   top: 0;
   height: 150px;
   width: 60px;
+  cursor: pointer;
 }
 
 .scaptcha-card-slider-control {
   position: absolute;
   top: 0;
   left: 0;
-  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
   width: 30px;
   height: 30px;
-  background-color: #242222;
   cursor: pointer;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 50%;
@@ -102,8 +105,26 @@ const darkTheme = `@font-face {
   padding-top: 1px;
 }
 
-.scaptcha-card-slider-control:hover {
+.scaptcha-card-slider-control-default {
+  background-color: #242222;
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+}
+
+.scaptcha-card-slider-control-active, .scaptcha-card-slider-control-success, .scaptcha-card-slider-control-failure {
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+}
+
+.scaptcha-card-slider-control-active {
   background-color: #0889e4;
+}
+
+.scaptcha-card-slider-control-success {
+  background-color: #35dd74;
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+}
+
+.scaptcha-card-slider-control-failure {
+  background-color: #e40808;
   box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
 }
 
@@ -132,9 +153,20 @@ const darkTheme = `@font-face {
   left: 0;
   width: 0;
   height: 24px;
-  background-color: #3caeff;
   border-radius: 12px;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+.scaptcha-card-slider-track-default, .scaptcha-card-slider-track-active {
+  background-color: #3caeff;
+}
+
+.scaptcha-card-slider-track-success {
+  background-color: #83f788;
+}
+
+.scaptcha-card-slider-track-failure {
+  background-color: #ff3c3c;
 }
 
 .scaptcha-card-slider-label {

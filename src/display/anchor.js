@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Card from './card';
 
-const Anchor = ({ text, fetchCaptcha, verifyResponse, verified }) => {
+const Anchor = ({ text, fetchCaptcha, submitResponse, verified }) => {
   const [open, setOpen] = useState(false);
   const handleCloseCard = () => setOpen(false);
   const handleSetOpen = () => setOpen(true);
@@ -18,13 +18,10 @@ const Anchor = ({ text, fetchCaptcha, verifyResponse, verified }) => {
       </div>
       {!verified && open && (
         <div>
-          <div
-            className="scaptcha-hidden"
-            onClick={handleCloseCard}
-          />
+          <div className="scaptcha-hidden" onClick={handleCloseCard} />
           <Card
             fetchCaptcha={fetchCaptcha}
-            verifyResponse={verifyResponse}
+            submitResponse={submitResponse}
             text={text}
           />
         </div>

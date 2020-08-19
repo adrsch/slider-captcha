@@ -34,4 +34,4 @@ const LoadingIcon = () => (
   </svg>
 );
 
-export default LoadingIcon;
+export { LoadingIcon };

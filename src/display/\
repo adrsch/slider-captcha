@@ -4,33 +4,10 @@ import { ArrowIcon, SuccessIcon, FailureIcon } from './icons';
 const imageDataUrl = (image) =>
   `data:image/png;base64,${Buffer.from(image).toString('base64')}`;
 
-const slider = {
-  default: {
-    track: 'scaptcha-card-slider-track-default',
-    control: 'scaptcha-card-slider-control-default',
-    icon: <ArrowIcon />,
-  },
-  active: {
-    track: 'scaptcha-card-slider-track-active',
-    control: 'scaptcha-card-slider-control-active',
-    icon: <ArrowIcon />,
-  },
-  success: {
-    track: 'scaptcha-card-slider-track-success',
-    control: 'scaptcha-card-slider-control-success',
-    icon: <SuccessIcon />,
-  },
-  failure: {
-    track: 'scaptcha-card-slider-track-failure',
-    control: 'scaptcha-card-slider-control-failure',
-    icon: <FailureIcon />,
-  },
-};
-
-const Challenge = ({ text, captcha, completeCaptcha }) => {
-  const [sliderVariant, setSliderVariant] = useState(slider.default);
+const Challenge = ({ text, captcha, onComplete }) => {
   const [solving, setSolving] = useState(false);
-  const [submittedResponse, setSubmittedResponse] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [validated, setValidated] = useState(undefined);
   const [origin, setOrigin] = useState({
     x: 0,
     y: 0,
@@ -40,21 +17,20 @@ const Challenge = ({ text, captcha, completeCaptcha }) => {
     y: [0],
   });
 
-  // Converts distances along the control track to corresponding distances moved by the puzzle piece
-  const scaleSliderPosition = (x) => 5 + 0.86 * x;
+  // Allows slider control to go to the end of the track without the puzzle piece falling off
+  const scaleSliderPosition = (x) => 3 + 0.9 * x;
 
   const handleStart = (e) => {
-    if (submittedResponse) return;
+    if (submitting) return; // Prevent double submissions
     setOrigin({
       x: e.clientX,
       y: e.clientY,
     });
     setSolving(true);
-    setSliderVariant(slider.active);
   };
 
   const handleMove = (e) => {
-    if (!solving || submittedResponse) return;
+    if (!solving || submitting) return; // Only move once user has clicked and before starting verification
     const move = {
       x: e.clientX - origin.x,
       y: e.clientY - origin.y,
@@ -66,21 +42,11 @@ const Challenge = ({ text, captcha, completeCaptcha }) => {
     });
   };
 
-  const handleEnd = () => {
-    if (!solving || submittedResponse) return;
-    setSubmittedResponse(true);
-    const validated = completeCaptcha(scaleSliderPosition(trail.x[trail.x.length - 1]), trail);
-    setSliderVariant(validated ? slider.success : slider.failure);
+  const handleEnd = (e) => {
+    if (!solving || submitting) return;
+    setSubmitting(true);
+    setValidated(onComplete(scaleSliderPosition(trail.x[trail.x.length - 1]), trail));
   };
-
-  const handleEnter = () => {
-    setSliderVariant(slider.active);
-  };
-
-  const handleLeave = () => {
-    if (solving) return;
-    setSliderVariant(slider.default);
-  }
 
   return (
     <div
@@ -90,7 +56,6 @@ const Challenge = ({ text, captcha, completeCaptcha }) => {
       onTouchMove={handleMove}
       onTouchEnd={handleEnd}
       onMouseUp={handleEnd}
-      onMouseLeave={handleEnd}
     >
       <div
         className="scaptcha-card-background scaptcha-card-element"
@@ -116,19 +81,25 @@ const Challenge = ({ text, captcha, completeCaptcha }) => {
           <span>{text.challenge}</span>
         </div>
         <div
-          className={`scaptcha-card-slider-mask ${sliderVariant.track} scaptcha-card-element`}
+          className="scaptcha-card-slider-mask scaptcha-card-element"
           style={{ width: `${trail.x[trail.x.length - 1] + 30}px` }}
         />
         <div className="scaptcha-card-slider-container scaptcha-card-element" draggable="false" />
         <div
-          className={`scaptcha-card-slider-control ${sliderVariant.control} scaptcha-card-element`}
+          className="scaptcha-card-slider-control scaptcha-card-element"
           style={{ left: `${trail.x[trail.x.length - 1]}px` }}
           onMouseDown={handleStart}
           onTouchStart={handleStart}
-          onMouseEnter={handleEnter}
-          onMouseLeave={handleLeave}
         >
-          {sliderVariant.icon}
+          {validated === undefined && (
+            <ArrowIcon />
+          )}
+          {validated === true && (
+            <SuccessIcon />
+          )}
+          {validated === false && (
+            <FailureIcon />
+          )}
         </div>
       </div>
     </div>
