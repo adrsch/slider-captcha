@@ -11,14 +11,17 @@ const Anchor = ({ text, fetchCaptcha, verifyResponse, verified }) => {
         className="scaptcha-anchor-container scaptcha-anchor-element"
         onClick={handleSetOpen}
       >
-        <div className="scaptcha-anchor-checkbox scaptcha-anchor-element"></div>
+        <div className="scaptcha-anchor-checkbox scaptcha-anchor-element" />
         <div className="scaptcha-anchor-label scaptcha-anchor-element">
           {text.anchor}
         </div>
       </div>
       {!verified && open && (
         <div>
-          <div className="scaptcha-hidden" onClick={handleCloseCard}></div>
+          <div
+            className="scaptcha-hidden"
+            onClick={handleCloseCard}
+          />
           <Card
             fetchCaptcha={fetchCaptcha}
             verifyResponse={verifyResponse}

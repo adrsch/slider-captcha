@@ -81,6 +81,8 @@ const lightTheme = `@font-face {
   position: absolute;
   left: 5px;
   top: 0;
+  height: 150px;
+  width: 60px;
 }
 
 .scaptcha-card-slider-control {
@@ -109,6 +111,7 @@ const lightTheme = `@font-face {
   margin-top: 7px;
   position: relative;
   height: 44px;
+  width: 250px;
 }
 
 .scaptcha-card-slider-track {

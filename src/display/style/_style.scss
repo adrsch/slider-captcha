@@ -9,6 +9,7 @@
 
 $width: 250px;
 $height: 150px;
+$slider-width: 60px;
 
 @mixin generate($colors) {
   .scaptcha-anchor-container {
@@ -84,6 +85,8 @@ $height: 150px;
     position: absolute;
     left: 5px;
     top: 0;
+    height: $height;
+    width: $slider-width;
   }
 
   .scaptcha-card-slider-control {
@@ -116,6 +119,7 @@ $height: 150px;
     margin-top: 7px;
     position: relative;
     height: 44px;
+    width: $width;
   }
 
   .scaptcha-card-slider-track {
