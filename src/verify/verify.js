@@ -21,7 +21,7 @@ const verifyResponse = (captcha, solution, trail, tolerance) =>
   verifyHorizontalMotion(trail.x, solution) &&
   verifyVerticalMotion(trail.y);
 
-const verify = (captcha, solution, trail, tolerance = 5) =>
+const verify = (captcha, solution, trail, tolerance = 7) =>
   new Promise((resolve, reject) => {
     verifyResponse(captcha, solution, trail, tolerance)
       ? uid(18).then((token) => {

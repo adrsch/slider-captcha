@@ -77,7 +77,7 @@ const lightTheme = `@font-face {
   position: absolute;
   padding: 15px 15px 0px 15px;
   min-width: 280px;
-  min-height: 213px;
+  min-height: 216px;
   background-color: #f1f1f1;
   box-shadow: 0px -1px 0px -2px rgba(0, 0, 0, 0.2), 0px 2px 9px 0px rgba(0, 0, 0, 0.14), 0px 5px 9px 0px rgba(0, 0, 0, 0.15);
   margin-top: -260px;
@@ -111,7 +111,6 @@ const lightTheme = `@font-face {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 1px;
 }
 
 .scaptcha-card-slider-control-default {
@@ -135,6 +134,7 @@ const lightTheme = `@font-face {
 }
 
 .scaptcha-card-slider-control-failure {
+  padding-top: 0.5px;
   background-color: #e40808;
   box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
 }
@@ -185,7 +185,7 @@ const lightTheme = `@font-face {
   color: #716e6e;
   padding-left: 20px;
   position: absolute;
-  top: 3px;
+  top: 4px;
   left: 0;
   width: 250px;
   display: flex;
@@ -196,7 +196,6 @@ const lightTheme = `@font-face {
   font-size: 13px;
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   font-weight: 400;
-  line-height: 1;
 }
 
 .scaptcha-hidden {
