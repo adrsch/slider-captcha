@@ -20,6 +20,9 @@ const lightTheme = `@font-face {
   height: 50px;
   padding: 13px;
   max-width: 400px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
 }
 
 .scaptcha-anchor-checkbox {
@@ -29,8 +32,12 @@ const lightTheme = `@font-face {
   height: 24px;
   width: 24px;
   padding-left: 3.5px;
-  cursor: pointer;
   background-color: #fff;
+}
+
+.scaptcha-anchor-checkbox-default:hover {
+  cursor: pointer;
+  border: 2px solid rgba(0, 0, 0, 0.35);
 }
 
 .scaptcha-anchor-label {
@@ -40,10 +47,12 @@ const lightTheme = `@font-face {
   display: inline-block;
   color: #424242;
   transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  vertical-align: middle;
-  line-height: 6px;
-  height: 100%;
+  margin-top: 4px;
   margin-left: 13px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  cursor: default;
 }
 
 .scaptcha-card-background {
