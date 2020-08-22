@@ -12,7 +12,14 @@ const darkTheme = `@font-face {
   display: none;
 }
 
+.scaptcha-icon-dark {
+  display: block;
+}
+
 .scaptcha-anchor-container {
+  display: flex;
+  align-items: center;
+  justify-content: left;
   box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(0, 0, 0, 0.12);
   background-color: #1c1919;
@@ -20,13 +27,10 @@ const darkTheme = `@font-face {
   height: 50px;
   padding: 13px;
   max-width: 400px;
-  display: flex;
-  justify-content: left;
-  align-items: center;
 }
 
 .scaptcha-anchor-checkbox {
-  display: inline-block;
+  display: flex;
   border: 2px solid rgba(0, 0, 0, 0.2);
   border-radius: 3px;
   height: 24px;
@@ -44,14 +48,13 @@ const darkTheme = `@font-face {
   font-size: 13px;
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   font-weight: 400;
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: left;
   color: #c6c6c6;
   transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   margin-top: 4px;
   margin-left: 13px;
-  display: flex;
-  justify-content: left;
-  align-items: center;
   cursor: default;
 }
 
@@ -61,15 +64,15 @@ const darkTheme = `@font-face {
 }
 
 .scaptcha-card-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 15px;
   position: absolute;
   top: 0;
   left: 0;
   min-width: 250px;
   min-height: 150px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   z-index: 1;
 }
 
@@ -81,11 +84,13 @@ const darkTheme = `@font-face {
   background-color: #1a1a1a;
   box-shadow: 0px -1px 0px -2px rgba(0, 0, 0, 0.2), 0px 2px 9px 0px rgba(0, 0, 0, 0.14), 0px 5px 9px 0px rgba(0, 0, 0, 0.15);
   margin-top: -260px;
+  margin-left: -7px;
 }
 
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 639px) {
   .scaptcha-card-container {
-    margin-left: -13px;
+    left: 50%;
+    margin-left: -140px;
   }
 }
 .scaptcha-card-slider-puzzle {
@@ -100,6 +105,9 @@ const darkTheme = `@font-face {
 }
 
 .scaptcha-card-slider-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: absolute;
   top: 0;
   left: 0;
@@ -108,9 +116,6 @@ const darkTheme = `@font-face {
   cursor: pointer;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .scaptcha-card-slider-control-default {
@@ -130,12 +135,10 @@ const darkTheme = `@font-face {
 
 .scaptcha-card-slider-control-success {
   background-color: #35dd74;
-  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
 }
 
 .scaptcha-card-slider-control-failure {
   background-color: #e40808;
-  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
 }
 
 .scaptcha-card-slider-container {
@@ -181,20 +184,27 @@ const darkTheme = `@font-face {
 }
 
 .scaptcha-card-slider-label {
+  font-size: 13px;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: #716e6e;
   padding-left: 20px;
   position: absolute;
   top: 4px;
   left: 0;
   width: 250px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   height: 24px;
   transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  font-size: 13px;
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-  font-weight: 400;
+  cursor: default;
+}
+
+.scaptcha-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .scaptcha-hidden {

@@ -21,4 +21,8 @@ $colors: (
   display: none;
 }
 
+.scaptcha-icon-dark {
+  display: block;
+}
+
 @include style.generate($colors);

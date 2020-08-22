@@ -7,30 +7,46 @@
   font-weight: 400;
 }
 
+@mixin center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin center-left {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+
 $width: 250px;
 $height: 150px;
 $slider-width: 60px;
+$anchor-padding: 13px;
+$card-padding: 15px;
+$track-height: 24px;
+$checkbox-size: 24px;
+$control-size: 30px;
+$anchor-height: 50px;
 
 @mixin generate($colors) {
   .scaptcha-anchor-container {
+    @include center-left;
     box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(0, 0, 0, 0.12);
     background-color: map.get($colors, 'anchor-background');
     width: 100%;
-    height: 50px;
-    padding: 13px;
+    height: $anchor-height;
+    padding: $anchor-padding;
     max-width: 400px;
-    display: flex;
-    justify-content: left;
-    align-items: center;
   }
 
   .scaptcha-anchor-checkbox {
-    display: inline-block;
+    display: flex;
     border: 2px solid rgba(0, 0, 0, 0.2);
     border-radius: 3px;
-    height: 24px;
-    width: 24px;
+    height: $checkbox-size;
+    width: $checkbox-size;
     padding-left: 3.5px;
     background-color: map.get($colors, 'anchor-checkbox');
   }
@@ -42,14 +58,11 @@ $slider-width: 60px;
 
   .scaptcha-anchor-label {
     @include typography;
-    display: inline-block;
+    @include center-left;
     color: map.get($colors, 'anchor-label');
     transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
     margin-top: 4px;
-    margin-left: 13px;
-    display: flex;
-    justify-content: left;
-    align-items: center;
+    margin-left: $anchor-padding;
     cursor: default;
   }
 
@@ -59,38 +72,38 @@ $slider-width: 60px;
   }
 
   .scaptcha-card-loading {
-    margin: 15px;
+    @include center;
+    margin: $card-padding;
     position: absolute;
     top: 0;
     left: 0;
     min-width: $width;
     min-height: $height;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     z-index: 1;
   }
 
   .scaptcha-card-container {
     position: absolute;
-    padding: 15px 15px 0px 15px;
-    min-width: $width + 30px;
+    padding: $card-padding $card-padding 0px $card-padding;
+    min-width: $width + 2 * $card-padding;
     min-height: $height + 66px;
     background-color: map.get($colors, 'card-background');
     box-shadow: 0px -1px 0px -2px rgba(0, 0, 0, 0.2),
       0px 2px 9px 0px rgba(0, 0, 0, 0.14), 0px 5px 9px 0px rgba(0, 0, 0, 0.15);
     margin-top: -110px - $height;
+    margin-left: -7px;
   }
 
-  @media only screen and (max-width: 400px) {
+  @media only screen and (max-width: 639px) {
     .scaptcha-card-container {
-      margin-left: -13px;
+      left: 50%;
+      margin-left: - ($width / 2) - $card-padding;
     }
   }
 
   .scaptcha-card-slider-puzzle {
-    margin-left: 15px;
-    margin-top: 15px;
+    margin-left: $card-padding;
+    margin-top: $card-padding;
     position: absolute;
     left: 5px;
     top: 0;
@@ -100,19 +113,17 @@ $slider-width: 60px;
   }
 
   .scaptcha-card-slider-control {
+    @include center;
     position: absolute;
     top: 0;
     left: 0;
-    width: 30px;
-    height: 30px;
+    width: $control-size;
+    height: $control-size;
     cursor: pointer;
     transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
       box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
       border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 
   .scaptcha-card-slider-control-default {
@@ -134,14 +145,10 @@ $slider-width: 60px;
 
   .scaptcha-card-slider-control-success {
     background-color: map.get($colors, 'card-control-success');
-    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
-      0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
   }
 
   .scaptcha-card-slider-control-failure {
     background-color: map.get($colors, 'card-control-failure');
-    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
-      0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
   }
 
   .scaptcha-card-slider-container {
@@ -157,9 +164,9 @@ $slider-width: 60px;
     top: 3px;
     left: 0;
     width: $width;
-    height: 24px;
+    height: $track-height;
     background-color: map.get($colors, 'card-track-background');
-    border-radius: 12px;
+    border-radius: $track-height / 2;
   }
 
   .scaptcha-card-slider-mask {
@@ -168,8 +175,8 @@ $slider-width: 60px;
     top: 3px;
     left: 0;
     width: 0;
-    height: 24px;
-    border-radius: 12px;
+    height: $track-height;
+    border-radius: $track-height / 2;
     transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   }
 
@@ -187,18 +194,21 @@ $slider-width: 60px;
   }
 
   .scaptcha-card-slider-label {
+    @include typography;
+    @include center;
     color: map.get($colors, 'card-track-label');
     padding-left: 20px;
     position: absolute;
     top: 4px;
     left: 0;
     width: $width;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 24px;
+    height: $track-height;
     transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-    @include typography;
+    cursor: default;
+  }
+
+  .scaptcha-icon-container {
+    @include center;
   }
 
   .scaptcha-hidden {

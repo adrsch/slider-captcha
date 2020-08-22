@@ -1,7 +1,7 @@
 import React from 'react';
 
 const ArrowIcon = () => (
-  <div>
+  <div className="scaptcha-icon-container">
     <svg
       className="scaptcha-icon-light"
       xmlns="http://www.w3.org/2000/svg"
