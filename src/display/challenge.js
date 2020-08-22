@@ -46,8 +46,8 @@ const Challenge = ({ text, captcha, completeCaptcha }) => {
   const handleStart = (e) => {
     if (submittedResponse) return;
     setOrigin({
-      x: e.clientX,
-      y: e.clientY,
+      x: e.clientX || e.touches[0].clientX,
+      y: e.clientY || e.touches[0].clientY,
     });
     setSolving(true);
     setSliderVariant(slider.active);
@@ -56,8 +56,8 @@ const Challenge = ({ text, captcha, completeCaptcha }) => {
   const handleMove = (e) => {
     if (!solving || submittedResponse) return;
     const move = {
-      x: e.clientX - origin.x,
-      y: e.clientY - origin.y,
+      x: (e.clientX || e.touches[0].clientX) - origin.x,
+      y: (e.clientY || e.touches[0].clientY) - origin.y,
     };
     if (move.x > 225 || move.x < 0) return; // Don't update if outside bounds of captcha
     setTrail({
