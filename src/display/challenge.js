@@ -69,18 +69,23 @@ const Challenge = ({ text, captcha, completeCaptcha }) => {
   const handleEnd = () => {
     if (!solving || submittedResponse) return;
     setSubmittedResponse(true);
-    const validated = completeCaptcha(scaleSliderPosition(trail.x[trail.x.length - 1]), trail);
-    setSliderVariant(validated ? slider.success : slider.failure);
+    completeCaptcha(
+      scaleSliderPosition(trail.x[trail.x.length - 1]),
+      trail
+    ).then((validated) => {
+      setSliderVariant(validated ? slider.success : slider.failure);
+    });
   };
 
   const handleEnter = () => {
+    if (solving || submittedResponse) return;
     setSliderVariant(slider.active);
   };
 
   const handleLeave = () => {
     if (solving) return;
     setSliderVariant(slider.default);
-  }
+  };
 
   return (
     <div
@@ -119,7 +124,10 @@ const Challenge = ({ text, captcha, completeCaptcha }) => {
           className={`scaptcha-card-slider-mask ${sliderVariant.track} scaptcha-card-element`}
           style={{ width: `${trail.x[trail.x.length - 1] + 30}px` }}
         />
-        <div className="scaptcha-card-slider-container scaptcha-card-element" draggable="false" />
+        <div
+          className="scaptcha-card-slider-container scaptcha-card-element"
+          draggable="false"
+        />
         <div
           className={`scaptcha-card-slider-control ${sliderVariant.control} scaptcha-card-element`}
           style={{ left: `${trail.x[trail.x.length - 1]}px` }}

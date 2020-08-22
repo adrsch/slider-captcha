@@ -5,8 +5,11 @@ import React, { useState } from 'react';
 const fetchCaptcha = (create) => () =>
   create instanceof Function
     ? create() // Use provided promise for getting background and slider
-    : fetch(create) // Use create as API URL for fetch
-        .then((response) => response.json());
+    : fetch(create, {
+        // Use create as API URL for fetch
+        method: 'GET',
+        credentials: 'include',
+      }).then((response) => response.json());
 
 const fetchVerification = (verify) => (response, trail) =>
   verify instanceof Function
@@ -14,6 +17,7 @@ const fetchVerification = (verify) => (response, trail) =>
     : fetch(verify, {
         // Verification API URL provided instead
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -34,19 +38,25 @@ const SliderCaptcha = ({
   },
 } = {}) => {
   const [verified, setVerified] = useState(false);
-  const submitResponse = (response, trail) => {
-    fetchVerification(verify)(response, trail).then((verification) => {
-      if (
-        !verification.result ||
-        verification.result !== 'success' ||
-        !verification.token
-      )
-        return false;
-      callback(verification.token);
-      setVerified(true);
-      return true;
+  const submitResponse = (response, trail) =>
+    new Promise((resolve, reject) => {
+      fetchVerification(verify)(response, trail).then((verification) => {
+        if (
+          !verification.result ||
+          verification.result !== 'success' ||
+          !verification.token
+        ) {
+          resolve(false);
+        }
+        else {
+          setTimeout(() => {
+            callback(verification.token);
+            setVerified(true);
+          }, 500);
+          resolve(true);
+        }
+      });
     });
-  };
   return (
     <div>
       <Theme variant={variant} />

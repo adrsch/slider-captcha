@@ -1,1 +1,1 @@
-module.exports = require('./dist/display');
+module.exports = require('./dist/display/slider-captcha');

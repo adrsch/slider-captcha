@@ -7,18 +7,28 @@ const Card = ({ text, fetchCaptcha, submitResponse }) => {
   const [captcha, setCaptcha] = useState(false);
   const refreshCaptcha = () => {
     let isSubscribed = true;
-    fetchCaptcha().then((captcha) => {
-      if (isSubscribed)
-      setKey(Math.random());
-      setCaptcha(captcha);
+    fetchCaptcha().then((captcha) => { 
+      setTimeout(() => {
+        console.log(isSubscribed);
+        if (!isSubscribed) return;
+        setKey(Math.random());
+        setCaptcha(captcha);
+      }, 300);
     });
-    return () => isSubscribed = false;
+    return () => (isSubscribed = false);
   };
-  const completeCaptcha = (response, trail) => {
-    if (submitResponse(response, trail)) return true;
-    refreshCaptcha();
-    return false;
-  };
+  const completeCaptcha = (response, trail) =>
+    new Promise((resolve, reject) => {
+      submitResponse(response, trail).then((verified) => {
+        if (verified) {
+          resolve(true);
+        }
+        else {
+          refreshCaptcha();
+          resolve(false);
+        }
+      });
+    });
 
   useEffect(refreshCaptcha, []);
 

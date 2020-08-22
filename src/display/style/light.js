@@ -110,7 +110,9 @@ const lightTheme = `@font-face {
   box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
 }
 
-.scaptcha-card-slider-control-active, .scaptcha-card-slider-control-success, .scaptcha-card-slider-control-failure {
+.scaptcha-card-slider-control-active,
+.scaptcha-card-slider-control-success,
+.scaptcha-card-slider-control-failure {
   box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
 }
 
@@ -157,7 +159,8 @@ const lightTheme = `@font-face {
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.scaptcha-card-slider-track-default, .scaptcha-card-slider-track-active {
+.scaptcha-card-slider-track-default,
+.scaptcha-card-slider-track-active {
   background-color: #3caeff;
 }
 

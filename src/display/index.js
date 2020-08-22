@@ -1,1 +1,1 @@
-export * from './display';
+export * from './slider-captcha';
