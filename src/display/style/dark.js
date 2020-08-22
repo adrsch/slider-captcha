@@ -206,6 +206,4 @@ const darkTheme = `@font-face {
   height: 100%;
   position: fixed;
 }
-
-/*# sourceMappingURL=dark.css.map */
 `; export default darkTheme;

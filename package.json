@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo a",
     "prettier": "prettier --write --single-quote ./src",
-    "build": "sass src && node scripts/themes && babel src -d ./dist"
+    "build": "sass --no-source-map src && node scripts/themes && babel src -d ./dist"
   },
   "repository": {
     "type": "git",

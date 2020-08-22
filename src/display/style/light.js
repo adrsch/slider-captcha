@@ -206,6 +206,4 @@ const lightTheme = `@font-face {
   height: 100%;
   position: fixed;
 }
-
-/*# sourceMappingURL=light.css.map */
 `; export default lightTheme;
