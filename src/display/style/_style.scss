@@ -209,6 +209,8 @@ $anchor-height: 50px;
 
   .scaptcha-icon-container {
     @include center;
+    margin-left: 1px;
+    margin-top: 1px;
   }
 
   .scaptcha-hidden {
@@ -219,5 +221,10 @@ $anchor-height: 50px;
     width: 100%;
     height: 100%;
     position: fixed;
+  }
+
+  .scaptcha-container * {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
   }
 }

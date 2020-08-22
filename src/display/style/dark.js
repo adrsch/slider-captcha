@@ -205,6 +205,8 @@ const darkTheme = `@font-face {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-left: 1px;
+  margin-top: 1px;
 }
 
 .scaptcha-hidden {
@@ -215,5 +217,10 @@ const darkTheme = `@font-face {
   width: 100%;
   height: 100%;
   position: fixed;
+}
+
+.scaptcha-container * {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 `; export default darkTheme;

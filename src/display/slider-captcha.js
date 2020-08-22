@@ -37,7 +37,6 @@ const SliderCaptcha = ({
     challenge: 'Slide to finish the puzzle',
   },
 } = {}) => {
-  console.log(variant);
   const [verified, setVerified] = useState(false);
   const submitResponse = (response, trail) =>
     new Promise((resolve, reject) => {
@@ -59,7 +58,7 @@ const SliderCaptcha = ({
       });
     });
   return (
-    <div>
+    <div className="scaptcha-container">
       <Theme variant={variant} />
       <Anchor
         text={text}
