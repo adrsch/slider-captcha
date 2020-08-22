@@ -1,13 +1,4 @@
-const darkTheme = `@font-face {
-  font-family: "Roboto";
-  src: url("../../../fonts/roboto/Roboto-Regular.woff2") format("woff2"), url("../../../fonts/roboto/Roboto-Regular.woff") format("woff");
-  font-weight: 400;
-  font-style: normal;
-}
-@font-face {
-  font-family: "Roboto-Regular";
-  src: url("../../../fonts/roboto/Roboto-Regular.woff2") format("woff2"), url("../../../fonts/roboto/Roboto-Regular.woff") format("woff");
-}
+const darkTheme = `@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 .scaptcha-icon-light {
   display: none;
 }
@@ -53,7 +44,6 @@ const darkTheme = `@font-face {
   justify-content: left;
   color: #c6c6c6;
   transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  margin-top: 4px;
   margin-left: 13px;
   cursor: default;
 }
@@ -193,7 +183,7 @@ const darkTheme = `@font-face {
   color: #716e6e;
   padding-left: 20px;
   position: absolute;
-  top: 4px;
+  top: 3px;
   left: 0;
   width: 250px;
   height: 24px;
