@@ -37,6 +37,7 @@ const SliderCaptcha = ({
     challenge: 'Slide to finish the puzzle',
   },
 } = {}) => {
+  console.log(variant);
   const [verified, setVerified] = useState(false);
   const submitResponse = (response, trail) =>
     new Promise((resolve, reject) => {
