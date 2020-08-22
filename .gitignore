@@ -7,3 +7,4 @@
 *.png
 
 /node_modules
+/dist
