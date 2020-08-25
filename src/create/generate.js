@@ -17,50 +17,50 @@ const randScheme = (base) => [
   randShade((base - 60) % 360),
 ].map((color) => hslString(color));
 
-const svgRect = (x, y, rand, color) =>
-  `<rect filter="url(#noise)" x="${x}" y="${y}" width="${rand.width}" height="${rand.height}" fill="${rand.scheme[color]}"/>`;
+const svgRect = (x, y, gridWidth, gridHeight, color) =>
+  `<rect filter="url(#noise)" x="${x}" y="${y}" width="${gridWidth}" height="${gridHeight}" fill="${color}"/>`;
 
-const svgGridPattern = (width, height, rand) =>
-  [...Array(Math.floor(height / rand.height)).keys()].map((y) =>
-    [...Array(Math.floor(width / rand.width)).keys()].map((x) =>
-      svgRect(x * rand.width, y * rand.height, rand, x % 2)))
+const svgGridPattern = (width, height, gridWidth, gridHeight, scheme) =>
+  [...Array(Math.floor(height / gridHeight)).keys()].map((y) =>
+    [...Array(Math.floor(width / gridWidth)).keys()].map((x) =>
+      svgRect(x * gridWidth, y * gridHeight, gridWidth, gridHeight, scheme[x % 2])))
   .join('\n');
 
-const svgBackgroundPattern = (width, height, rand) => `
+const backgroundSvg = (
+  width,
+  height,
+  {
+    gridWidth = randInt(5, 50),
+    gridHeight = randInt(5, 50),
+    scheme = randScheme(randInt(0, 360)),
+    seeds = [randInt(), randInt()],
+  } = {},
+) => `
 <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
   <filter id="noise">
     <feTurbulence type="turbulence" baseFrequency="0.005"
-      seed="${randInt()}"
+      seed="${seeds[0]}"
         numOctaves="2" result="turbulence"/>
     <feDisplacementMap in2="turbulence" in="SourceGraphic"
         scale="30" xChannelSelector="R" yChannelSelector="G"/>
   </filter>
   <filter id="heavy">
     <feTurbulence type="turbulence" baseFrequency="0.005"
-      seed="${randInt()}"
+      seed="${seeds[1]}"
         numOctaves="2" result="turbulence"/>
     <feDisplacementMap in2="turbulence" in="SourceGraphic"
         scale="100" xChannelSelector="R" yChannelSelector="G"/>
   </filter>
-  <rect width="${width}" height="${height}" fill="${rand.scheme[4]}"/>
+  <rect width="${width}" height="${height}" fill="${scheme[4]}"/>
   <rect filter="url(#heavy)"  width="${width / 2}" height="${height}" x="${
   width / 5
-}" fill="${rand.scheme[2]}"/>
+}" fill="${scheme[2]}"/>
   <rect filter="url(#heavy)" width="${width / 2}" height="${height}" x="${
   width / 2
-}" fill="${rand.scheme[3]}"/>
-  ${svgGridPattern(width, height, rand)}
+}" fill="${scheme[3]}"/>
+  ${svgGridPattern(width, height, gridWidth, gridHeight, scheme)}
 </svg>
 `;
-
-const backgroundSvg = (width, height) => {
-  const rand = {
-    width: randInt(5, 50),
-    height: randInt(5, 50),
-    scheme: randScheme(randInt(0, 360)),
-  };
-  return svgBackgroundPattern(width, height, rand);
-};
 
 const puzzlePieceSvg = ({
   distort = false,
@@ -85,7 +85,7 @@ const puzzlePieceSvg = ({
   </svg>
 `;
 
-module.exports = {
+export {
   puzzlePieceSvg,
   backgroundSvg,
   randInt,
