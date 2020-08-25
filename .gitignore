@@ -6,5 +6,5 @@
 *.jpg
 *.png
 
-/node_modules
-/lib
+**/node_modules
+**/lib
