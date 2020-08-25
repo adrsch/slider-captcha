@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 .scaptcha-icon-dark {
   display: none;
 }
@@ -22,11 +21,14 @@
 
 .scaptcha-anchor-checkbox {
   display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  display: flex;
   border: 2px solid rgba(0, 0, 0, 0.2);
   border-radius: 3px;
   height: 24px;
   width: 24px;
-  padding-left: 3.5px;
   background-color: #fff;
 }
 
@@ -37,7 +39,7 @@
 
 .scaptcha-anchor-label {
   font-size: 13px;
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   font-weight: 400;
   display: flex;
   align-items: center;
@@ -175,7 +177,7 @@
 
 .scaptcha-card-slider-label {
   font-size: 13px;
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   font-weight: 400;
   display: flex;
   align-items: center;

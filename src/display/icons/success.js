@@ -29,4 +29,4 @@ const SuccessIcon = () => (
   </div>
 );
 
-export { SuccessIcon };
+export default SuccessIcon;

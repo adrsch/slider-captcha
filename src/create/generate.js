@@ -1,70 +1,32 @@
 const randInt = (min = 0, max = 2147483646) =>
   Math.floor(Math.random() * (max - min + 1) + min);
 
-const noiseSvg = (width, height) => `
-<svg>
-  <filter id="noise">
-    <feTurbulence type="turbulence" baseFrequency="0.05"
-        numOctaves="2" result="turbulence"/>
-    <feDisplacementMap in2="turbulence" in="SourceGraphic"
-        scale="50" xChannelSelector="R" yChannelSelector="G"/>
-  </filter>
-  <filter id="bg">
-    <feTurbulence
-      baseFrequency="0.005"
-      seed="${randInt()}"
-      result="noise"
-    />
-    <feColorMatrix in="noise"
-        type="matrix"
-        values="1 0 0 0 0
-                0 1 0 0 0
-                0 0 1 0 0
-                0 0 0 0 1" />
-  </filter>
-  <rect filter="url(#bg)" width="${width}" height="${height}"/>
-</svg>
-`;
+const randShade = (hue) => ({
+  h: hue,
+  s: randInt(50, 70),
+  l: randInt(50, 60),
+});
 
-const randShape = (x, y, rand, color) =>
+const hslString = (color) => `hsl(${color.h}, ${color.s}%, ${color.l}%)`;
+
+const randScheme = (base) => [
+  randShade(base),
+  randShade((base + 60) % 360),
+  randShade((base - 30) % 360),
+  randShade((base + 30) % 360),
+  randShade((base - 60) % 360),
+].map((color) => hslString(color));
+
+const svgRect = (x, y, rand, color) =>
   `<rect filter="url(#noise)" x="${x}" y="${y}" width="${rand.width}" height="${rand.height}" fill="${rand.scheme[color]}"/>`;
 
-const pattern = (width, height, rand) =>
-  [...Array(Math.floor(height / rand.height)).keys()]
-    .map((y) =>
-      [...Array(Math.floor(width / rand.width)).keys()].map((x) =>
-        randShape(x * rand.width, y * rand.height, rand, x % 2)
-      )
-    )
-    .join('\n');
+const svgGridPattern = (width, height, rand) =>
+  [...Array(Math.floor(height / rand.height)).keys()].map((y) =>
+    [...Array(Math.floor(width / rand.width)).keys()].map((x) =>
+      svgRect(x * rand.width, y * rand.height, rand, x % 2)))
+  .join('\n');
 
-const randColor = (hue = false) => [
-  hue ? hue : randInt(0, 360),
-  randInt(50, 70), // Saturation
-  randInt(50, 60), // Lightness
-];
-
-const hslString = (color) => `hsl(${color[0]}, ${color[1]}%, ${color[2]}%)`;
-
-const randScheme = () => {
-  let scheme = [randColor()];
-  scheme.push(randColor((scheme[0][0] + 60) % 360));
-  scheme.push(randColor((scheme[0][0] - 30) % 360));
-  scheme.push(randColor((scheme[0][0] + 30) % 360));
-  scheme.push(randColor((scheme[0][0] - 60) % 360));
-  return scheme.map((color) => hslString(color));
-};
-
-const backgroundSvg = (width, height) => {
-  const rand = {
-    width: randInt(5, 50),
-    height: randInt(5, 50),
-    scheme: randScheme(),
-  };
-  return backgroundPattern(width, height, rand);
-};
-
-const backgroundPattern = (width, height, rand) => `
+const svgBackgroundPattern = (width, height, rand) => `
 <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
   <filter id="noise">
     <feTurbulence type="turbulence" baseFrequency="0.005"
@@ -87,13 +49,22 @@ const backgroundPattern = (width, height, rand) => `
   <rect filter="url(#heavy)" width="${width / 2}" height="${height}" x="${
   width / 2
 }" fill="${rand.scheme[3]}"/>
-  ${pattern(width, height, rand)}
+  ${svgGridPattern(width, height, rand)}
 </svg>
 `;
 
+const backgroundSvg = (width, height) => {
+  const rand = {
+    width: randInt(5, 50),
+    height: randInt(5, 50),
+    scheme: randScheme(randInt(0, 360)),
+  };
+  return svgBackgroundPattern(width, height, rand);
+};
+
 const puzzlePieceSvg = ({
-  distort = true,
-  rotate = true,
+  distort = false,
+  rotate = false,
   fill = '#000',
   stroke = '#fff',
   seed = 0,
@@ -115,7 +86,7 @@ const puzzlePieceSvg = ({
 `;
 
 module.exports = {
-  puzzlePieceSvg: puzzlePieceSvg,
-  backgroundSvg: backgroundSvg,
-  randInt: randInt,
+  puzzlePieceSvg,
+  backgroundSvg,
+  randInt,
 };

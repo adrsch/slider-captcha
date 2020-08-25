@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { ArrowIcon, SuccessIcon, FailureIcon } from './icons';
 
 const imageDataUrl = (image) =>
@@ -71,7 +72,7 @@ const Challenge = ({ text, captcha, completeCaptcha }) => {
     setSubmittedResponse(true);
     completeCaptcha(
       scaleSliderPosition(trail.x[trail.x.length - 1]),
-      trail
+      trail,
     ).then((validated) => {
       setSliderVariant(validated ? slider.success : slider.failure);
     });
@@ -141,6 +142,24 @@ const Challenge = ({ text, captcha, completeCaptcha }) => {
       </div>
     </div>
   );
+};
+
+Challenge.propTypes = {
+  completeCaptcha: PropTypes.func.isRequired,
+  captcha: PropTypes.shape({
+    slider: PropTypes.shape({
+      type: PropTypes.string,
+      data: PropTypes.arrayOf(PropTypes.number),
+    }),
+    background: PropTypes.shape({
+      type: PropTypes.string,
+      data: PropTypes.arrayOf(PropTypes.number),
+    }),
+  }).isRequired,
+  text: PropTypes.shape({
+    anchor: PropTypes.string,
+    challenge: PropTypes.string,
+  }).isRequired,
 };
 
 export default Challenge;

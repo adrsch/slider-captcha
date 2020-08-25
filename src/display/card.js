@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import { LoadingIcon } from './icons';
 import Challenge from './challenge';
 
@@ -8,21 +9,20 @@ const Card = ({ text, fetchCaptcha, submitResponse }) => {
   const isMounted = useRef(false);
 
   const refreshCaptcha = () => {
-    fetchCaptcha().then((captcha) => { 
+    fetchCaptcha().then((newCaptcha) => {
       setTimeout(() => {
         if (!isMounted.current) return;
         setKey(Math.random());
-        setCaptcha(captcha);
+        setCaptcha(newCaptcha);
       }, 300);
     });
   };
   const completeCaptcha = (response, trail) =>
-    new Promise((resolve, reject) => {
+    new Promise((resolve) => {
       submitResponse(response, trail).then((verified) => {
         if (verified) {
           resolve(true);
-        }
-        else {
+        } else {
           refreshCaptcha();
           resolve(false);
         }
@@ -32,7 +32,7 @@ const Card = ({ text, fetchCaptcha, submitResponse }) => {
   useEffect(() => {
     isMounted.current = true;
     refreshCaptcha();
-    return () => { isMounted.current = false; }
+    return () => { isMounted.current = false; };
   }, []);
 
   return (
@@ -51,6 +51,15 @@ const Card = ({ text, fetchCaptcha, submitResponse }) => {
       )}
     </div>
   );
+};
+
+Card.propTypes = {
+  fetchCaptcha: PropTypes.func.isRequired,
+  submitResponse: PropTypes.func.isRequired,
+  text: PropTypes.shape({
+    anchor: PropTypes.string,
+    challenge: PropTypes.string,
+  }).isRequired,
 };
 
 export default Card;

@@ -29,4 +29,4 @@ const FailureIcon = () => (
   </div>
 );
 
-export { FailureIcon };
+export default FailureIcon;

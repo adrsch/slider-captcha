@@ -1,10 +1,11 @@
 @use 'sass:map';
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-
 @mixin typography {
   font-size: 13px;
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
   font-weight: 400;
 }
 
@@ -43,12 +44,13 @@ $anchor-height: 50px;
   }
 
   .scaptcha-anchor-checkbox {
+    @include center;
+    padding: 0;
     display: flex;
     border: 2px solid rgba(0, 0, 0, 0.2);
     border-radius: 3px;
     height: $checkbox-size;
     width: $checkbox-size;
-    padding-left: 3.5px;
     background-color: map.get($colors, 'anchor-checkbox');
   }
 

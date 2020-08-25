@@ -1,60 +1,65 @@
 import sharp from 'sharp';
 import { randInt, puzzlePieceSvg, backgroundSvg } from './generate';
 
+const sizes = ({
+  WIDTH: 250,
+  HEIGHT: 150,
+  PUZZLE: 60,
+  PADDING: 20,
+});
+
 const createCaptcha = ({
-  width = 250,
-  height = 150,
-  image = (width, height) => Buffer.from(backgroundSvg(width, height)),
+  image = Buffer.from(backgroundSvg(sizes.WIDTH, sizes.HEIGHT)),
   distort = false,
   rotate = false,
   fill = '#000',
   stroke = '#fff',
   strokeWidth = '.4',
   opacity = '0.5',
-  padding = 20,
 } = {}) => {
-  const backgroundImage = image(width, height);
   const seed = randInt();
   const overlay = Buffer.from(
     puzzlePieceSvg({
-      rotate: rotate,
-      distort: distort,
-      fill: fill,
-      stroke: stroke,
-      strokeWidth: strokeWidth,
-      opacity: opacity,
-      seed: seed,
-    })
+      rotate,
+      distort,
+      fill,
+      stroke,
+      strokeWidth,
+      opacity,
+      seed,
+    }),
   );
   const mask = Buffer.from(
     puzzlePieceSvg({
-      rotate: rotate,
-      distort: distort,
-      seed: seed,
-      strokeWidth: strokeWidth,
+      rotate,
+      distort,
+      seed,
+      strokeWidth,
       fill: '#fff',
       stroke: '#fff',
       opacity: '1',
-    })
+    }),
   );
   const outline = Buffer.from(
     puzzlePieceSvg({
-      rotate: rotate,
-      distort: distort,
-      seed: seed,
-      stroke: stroke,
-      strokeWidth: strokeWidth,
+      rotate,
+      distort,
+      seed,
+      stroke,
+      strokeWidth,
       fill: 'none',
       opacity: '1',
-    })
+    }),
   );
   const location = {
-    left: randInt(padding + 60, width - padding - 60), // Solution for slider
-    top: randInt(padding, height - padding - 60), // Vertical offset
+    // Solution for slider
+    left: randInt(sizes.PUZZLE + sizes.PADDING, sizes.WIDTH - (sizes.PUZZLE + sizes.PADDING)),
+    // Vertical offset
+    top: randInt(sizes.PADDING, sizes.HEIGHT - (sizes.PUZZLE + sizes.PADDING)),
   };
-  return new Promise((resolve, reject) =>
-    sharp(backgroundImage)
-      .resize({ width: width, height: height })
+  return new Promise((resolve) => {
+    sharp(image)
+      .resize({ width: sizes.WIDTH, height: sizes.HEIGHT })
       .composite([
         {
           input: overlay,
@@ -65,8 +70,9 @@ const createCaptcha = ({
       ])
       .png()
       .toBuffer()
-      .then((background) =>
-        sharp(backgroundImage)
+      .then((background) => {
+        sharp(image)
+          .resize({ width: sizes.WIDTH, height: sizes.HEIGHT })
           .composite([
             {
               input: mask,
@@ -81,20 +87,25 @@ const createCaptcha = ({
               left: location.left,
             },
           ])
-          .extract({ left: location.left, top: 0, width: 60, height: height })
+          .extract({
+            left: location.left,
+            top: 0,
+            width: sizes.PUZZLE,
+            height: sizes.HEIGHT,
+          })
           .png()
           .toBuffer()
-          .then((slider) =>
+          .then((slider) => {
             resolve({
-              challenge: {
-                background: background,
-                slider: slider,
+              data: {
+                background,
+                slider,
               },
               solution: location.left,
-            })
-          )
-      )
-  );
+            });
+          });
+      });
+  });
 };
 
-module.exports = createCaptcha;
+export default createCaptcha;

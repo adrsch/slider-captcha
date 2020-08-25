@@ -1,4 +1,4 @@
-export * from './loading';
-export * from './arrow';
-export * from './success';
-export * from './failure';
+export { default as LoadingIcon } from './loading';
+export { default as ArrowIcon } from './arrow';
+export { default as SuccessIcon } from './success';
+export { default as FailureIcon } from './failure';

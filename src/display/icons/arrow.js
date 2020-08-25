@@ -33,4 +33,4 @@ const ArrowIcon = () => (
   </div>
 );
 
-export { ArrowIcon };
+export default ArrowIcon;
