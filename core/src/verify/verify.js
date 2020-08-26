@@ -26,15 +26,17 @@ const verifyResponse = (captcha, solution, trail, tolerance) =>
 
 const verifyCaptcha = (
   captcha,
-  solution,
-  trail,
+  {
+    response,
+    trail,
+  },
   {
     tolerance = 7,
     verify = verifyResponse,
   } = {},
 ) =>
   new Promise((resolve) => {
-    if (verify(captcha, solution, trail, tolerance)) {
+    if (verify(captcha, response, trail, tolerance)) {
       uid(32).then((token) => {
         resolve({
           result: 'success',
