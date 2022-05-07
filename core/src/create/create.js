@@ -58,8 +58,9 @@ const createCaptcha = ({
     top: randInt(sizes.PADDING, sizes.HEIGHT - (sizes.PUZZLE + sizes.PADDING)),
   };
   return new Promise((resolve) => {
-    sharp(image)
-      .resize({ width: sizes.WIDTH, height: sizes.HEIGHT })
+    const ins = sharp(image)
+  		.resize({ width: sizes.WIDTH, height: sizes.HEIGHT })
+    return ins
       .composite([
         {
           input: overlay,
@@ -70,41 +71,40 @@ const createCaptcha = ({
       ])
       .png()
       .toBuffer()
-      .then((background) => {
-        sharp(image)
-          .resize({ width: sizes.WIDTH, height: sizes.HEIGHT })
+      .then(async (background) => {
+        const composed = await ins
           .composite([
             {
               input: mask,
-              blend: 'dest-in',
-              top: location.top,
-              left: location.left,
-            },
+        			blend: 'dest-in',
+        			top: location.top,
+        			left: location.left,
+        		},
             {
               input: outline,
               blend: 'over',
               top: location.top,
               left: location.left,
             },
-          ])
-          .extract({
-            left: location.left,
-            top: 0,
-            width: sizes.PUZZLE,
-            height: sizes.HEIGHT,
-          })
-          .png()
-          .toBuffer()
-          .then((slider) => {
-            resolve({
-              data: {
-                background,
-                slider,
-              },
-              solution: location.left,
+          ]).toBuffer();
+          return sharp(composed).extract({
+              left: location.left,
+              top: 0,
+              width: sizes.PUZZLE,
+              height: sizes.HEIGHT,
+            })
+            .png()
+            .toBuffer()
+            .then((slider) => {
+              return {
+                data: {
+                  background,
+                  slider,
+                },
+                solution: location.left,
+              };
             });
-          });
-      });
+        });
   });
 };
 
