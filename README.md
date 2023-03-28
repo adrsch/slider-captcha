@@ -1,6 +1,9 @@
 # @slider-captcha
 Generate a puzzle slider captcha and display with React component.\
 ![](https://raw.githubusercontent.com/adrsch/slider-captcha/master/demo.gif)
+## This is no longer supported! Please use one of the forks.
+
+
 ## Installation
 React frontend:
 ```
